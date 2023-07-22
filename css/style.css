@@ -1,0 +1,22 @@
+li{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+/*navbar*/
+
+.nav-container{
+    position: sticky;
+    z-index: 3;
+    top: 0;
+}
+
+/*Banner Styles*/
+
+.banner{
+    background-image: url("https://images.unsplash.com/photo-1615550074360-87e8e2e9d46e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80");
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}

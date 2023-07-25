@@ -1,49 +1,6 @@
-//DIVs padres HTML
-
-const contenidoTienda = document.getElementById("contenidoTienda");
-const verCarrito = document.getElementById("verCarrito");
-const modalCarrito = document.getElementById("modalCarrito");
-
-//Inicializamos el carrito de compras.
-
-let carrito = []; 
-
-//Utilizaremos el método For Each para recorrer nuestro array y generando la visión del mismo en el navegador.
-
-bicis.forEach((bici) => {
-    let contenido = document.createElement ("div");
-    contenido.className = "cardBici";
-    contenido.innerHTML = `
-    <img src="${bici.img}">
-    <h3>${bici.nombre}</h3>
-    <p class="precio">$${bici.precio}</p>
-    `;
-
-    contenidoTienda.append(contenido);
-
-//Creamos botón de compra.
-
-let comprar = document.createElement("button");
-comprar.innerText = "comprar";
-comprar.className = "comprar";
-
-contenido.append(comprar);
-
-//Le generamos funcionalidad al botón de compra mediante el evento.
-
-comprar.addEventListener("click" , () =>{
-    carrito.push({
-        id: bici.id,
-        img: bici.img,
-        nombre: bici.nombre,
-        precio: bici.precio,
-    })
-})
-});
-
 //Generamos un modal del carrito, donde irán los datos del evento al escojer los productos a comprar.
 
-verCarrito.addEventListener("click" , () => {
+    const iniCarrito = () => {
     modalCarrito.innerHTML = "";
     modalCarrito.style.display = "flex";
     const modalHeader = document.createElement("div");
@@ -76,18 +33,53 @@ verCarrito.addEventListener("click" , () => {
             <img src="${bici.img}">
             <h3>${bici.nombre}</h3>
             <p> ${bici.precio}</p>
+            <p>Cantidad: ${bici.cantidad}</p>
+            <p> Total: ${bici.cantidad * bici.precio}</p>
         `;
 
         modalCarrito.append(carritoContenido);
+    
+        //Creamos un botón para eliminar productos.
+
+        let eliminar = document.createElement("span");
+        eliminar.innerText = "❌";
+        eliminar.className = "borrar-bici";
+        carritoContenido.append(eliminar);
+
+        eliminar.addEventListener("click", eliminarBici);
     });
 
     //Ahora procedemos con el cálculo del total de la compra.
     
-    const total = carrito.reduce((acc, el) => acc + el.precio, 0);
+    const total = carrito.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
 
     const totalCompra = document.createElement("div")
     totalCompra.className = "total-contenido"
     totalCompra.innerHTML = `Total a pagar: $${total}`;
     console.log(total);
     modalCarrito.append(totalCompra);
-});
+
+};
+
+//Invoco a mi función de inicializar el carrito mediante un evento para poder verlo.
+
+verCarrito.addEventListener("click" , iniCarrito);
+
+//Creamos una función para el botón de eliminar productos.
+
+const eliminarBici = () => {
+    const buscarId = carrito.find ((element) => element.id);
+
+    carrito = carrito.filter((carritoId) => {
+        return carritoId !== buscarId;
+    });
+
+    iniCarrito();
+};
+
+//Creamos una función para el contador del Carrito.
+
+const carritoContador = () => {
+    cantidadCarrito.style.display = "block"
+    cantidadCarrito.innerText = carrito.length;
+}

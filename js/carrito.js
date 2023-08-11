@@ -1,4 +1,4 @@
-//Generamos un modal del carrito, donde irán los datos del evento al escojer los productos a comprar.
+
 
     const iniCarrito = () => {
     modalCarrito.innerHTML = "";
@@ -8,16 +8,13 @@
     modalHeader.innerHTML = `
     <h1 class="modal-header-titulo">Carrito:</h1>
     `;
-    //Anexamos el header al modal.
     modalCarrito.append(modalHeader);
 
-    //Creamos un botón para el header, seguidamente anexándolo.
 
     const modalbutton = document.createElement("h1");
     modalbutton.innerText = "x";
     modalbutton.className = "modal-header-button";
 
-    //Añadimos evento para el botón, para poder cerrar el modal.
 
     modalbutton.addEventListener ("click", () => {
         modalCarrito.style.display = "none"
@@ -25,7 +22,6 @@
 
 
     modalHeader.append(modalbutton);
-    //Generamos el recorrido del carrito de los productos que se eligieron, después agregándo la lógica al modal.
     carrito.forEach((bici) => {
         let carritoContenido = document.createElement("div");
         carritoContenido.className = "modal-contenido";
@@ -39,7 +35,6 @@
 
         modalCarrito.append(carritoContenido);
     
-        //Creamos un botón para eliminar productos.
 
         let eliminar = document.createElement("span");
         eliminar.innerText = "❌";
@@ -49,7 +44,6 @@
         eliminar.addEventListener("click", eliminarBici);
     });
 
-    //Ahora procedemos con el cálculo del total de la compra.
     
     const total = carrito.reduce((acc, el) => acc + el.precio * el.cantidad, 0);
 
@@ -61,11 +55,9 @@
 
 };
 
-//Invoco a mi función de inicializar el carrito mediante un evento para poder verlo.
 
 verCarrito.addEventListener("click" , iniCarrito);
 
-//Creamos una función para el botón de eliminar productos.
 
 const eliminarBici = () => {
     const buscarId = carrito.find ((element) => element.id);
@@ -74,12 +66,17 @@ const eliminarBici = () => {
         return carritoId !== buscarId;
     });
 
+    carritoContador();
+    saveLocal();
     iniCarrito();
 };
 
-//Creamos una función para el contador del Carrito.
 
 const carritoContador = () => {
     cantidadCarrito.style.display = "block"
-    cantidadCarrito.innerText = carrito.length;
-}
+    const carritoLength = carrito.length;
+    localStorage.setItem("carritoLength", JSON.stringify(carritoLength))
+    cantidadCarrito.innerText = JSON.parse(localStorage.getItem("carritoLength"));
+};
+
+carritoContador();
